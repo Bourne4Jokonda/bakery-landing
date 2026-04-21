@@ -1,0 +1,5 @@
+[
+    { "id": 1, "name": "Пирог с яблоком", "price": 450, "desc": "Хрустящее тесто, сочная начинка.", "img": "https://placehold.co/400x300/f5e6d3/333?text=Apple+Pie" },
+    { "id": 2, "name": "Круассан с миндалём", "price": 290, "desc": "Воздушный, с начинкой из марципана.", "img": "https://placehold.co/400x300/f5e6d3/333?text=Croissant" },
+    { "id": 3, "name": "Булочка с корицей", "price": 180, "desc": "Ароматная, с сахарной глазурью.", "img": "https://placehold.co/400x300/f5e6d3/333?text=Cinnamon+Roll" }
+  ]

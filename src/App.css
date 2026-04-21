@@ -1,0 +1,11 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, sans-serif; background: #fff9f5; color: #333; }
+.container { max-width: 1200px; margin: 0 auto; padding: 1rem; }
+.header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+.card { background: #fff; border-radius: 12px; padding: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.card img { width: 100%; border-radius: 8px; margin-bottom: 0.75rem; }
+.price-row { display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; }
+.cart-btn { background: #e67e22; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; }
+button { background: #27ae60; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; }
+.footer { text-align: center; padding: 2rem 0; color: #888; font-size: 0.9rem; }
