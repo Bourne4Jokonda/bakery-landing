@@ -53,7 +53,14 @@
     font-weight: bold;
     cursor: pointer;
   }
-  
+ 
+  .product-form h3 {
+    margin: 0 0 20px 0;
+    font-size: 20px;
+    color: #333;
+    font-weight: 600;
+  }
+
   .product-form button:disabled {
     background: #95a5a6;
     cursor: not-allowed;
