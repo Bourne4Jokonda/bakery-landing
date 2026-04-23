@@ -1,96 +1,52 @@
-import React, { useState } from 'react'
-import submitOrder from '../utils/submitOrder'
-import './Popup.css'
+import './App.css' // Убедись, что стили подключены
 
 export default function CartPopup({ cart, products, onClose, onAdd, onRemove }) {
-  const [form, setForm] = useState({ name: '', phone: '', comment: '' })
-  const [loading, setLoading] = useState(false)
+  // 1. Собираем полные данные товаров, которые есть в корзине
+  const cartItems = Object.keys(cart).map(productId => {
+    const product = products.find(p => p.id === productId)
+    return { ...product, quantity: cart[productId] }
+  }).filter(item => item.id) // Убираем "мусор", если товар удален из базы
 
-  const cartItems = Object.entries(cart).map(([id, quantity]) => {
-    const product = products.find(p => p.id === parseInt(id))
-    return product ? { ...product, quantity } : null
-  }).filter(Boolean)
-
-  const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
-
-  const handleOrder = async () => {
-    if (!form.name || !form.phone) {
-      alert('Заполните имя и телефон')
-      return
-    }
-
-    setLoading(true)
-    try {
-      await submitOrder({ ...form, items: cartItems, total })
-      alert('✅ Заказ отправлен! Мы скоро свяжемся с вами.')
-      onClose()
-    } catch (error) {
-      alert('❌ Ошибка отправки. Попробуйте позже.')
-      console.error(error)
-    } finally {
-      setLoading(false)
-    }
-  }
+  // 2. Считаем итоговую сумму
+  const totalPrice = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
 
   return (
     <div className="popup-overlay" onClick={onClose}>
-      <div className="popup cart-popup" onClick={e => e.stopPropagation()}>
-        <button className="close-btn" onClick={onClose}>✕</button>
-        <h2>Корзина ({cartItems.length})</h2>
+      <div className="cart-popup" onClick={e => e.stopPropagation()}>
         
+        <div className="popup-header">
+          <h2>Корзина</h2>
+          <button className="close-btn" onClick={onClose}>×</button>
+        </div>
+
         {cartItems.length === 0 ? (
-          <p>Корзина пуста</p>
+          <p className="empty-cart">Корзина пуста 🧺</p>
         ) : (
           <>
             <div className="cart-items">
               {cartItems.map(item => (
                 <div key={item.id} className="cart-item">
-                  {item.image && (
-                    <img src={item.image} alt={item.name} className="cart-item-image" />
-                  )}
-                  <div className="cart-item-info">
-                    <div className="cart-item-name">{item.name}</div>
-                    <div className="cart-item-price">{item.price} ₽</div>
+                  <img src={item.image} alt={item.name} />
+                  <div className="item-info">
+                    <strong>{item.name}</strong>
+                    <p className="price-line">{item.price} ₽ × {item.quantity}</p>
                   </div>
-                  <div className="cart-item-actions">
-                    <div className="quantity-control">
-                      <button className="qty-btn minus" onClick={() => onRemove(item.id)}>−</button>
-                      <span className="qty-value">{item.quantity}</span>
-                      <button className="qty-btn plus" onClick={() => onAdd(item.id)}>+</button>
-                    </div>
+                  <div className="cart-controls">
+                    <button onClick={() => onRemove(item.id)}>−</button>
+                    <span>{item.quantity}</span>
+                    <button onClick={() => onAdd(item.id)}>+</button>
                   </div>
                 </div>
               ))}
             </div>
-
-            <div className="cart-total">Итого: {total} ₽</div>
-
-            <div className="order-form">
-              <input 
-                type="text"
-                placeholder="Ваше имя"
-                value={form.name}
-                onChange={e => setForm({...form, name: e.target.value})}
-                required
-              />
-              <input 
-                type="tel"
-                placeholder="Телефон"
-                value={form.phone}
-                onChange={e => setForm({...form, phone: e.target.value})}
-                required
-              />
-              <textarea 
-                placeholder="Комментарий к заказу"
-                value={form.comment}
-                onChange={e => setForm({...form, comment: e.target.value})}
-                rows="3"
-              />
+            
+            <div className="cart-footer">
+              <div className="cart-total">
+                <span>Итого:</span>
+                <strong>{totalPrice} ₽</strong>
+              </div>
+              <button className="checkout-btn">Оформить заказ</button>
             </div>
-
-            <button className="checkout-btn" onClick={handleOrder} disabled={loading}>
-              {loading ? 'Отправка...' : 'Оформить заказ'}
-            </button>
           </>
         )}
       </div>
