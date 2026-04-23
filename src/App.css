@@ -4,7 +4,7 @@ body {
   font-family: system-ui, sans-serif; 
   background: #fff9f5; 
   color: #333;
-  padding-top: 80px; /* Отступ для фиксированной шапки */
+  padding-top: 0; /* Отступ для фиксированной шапки */
 }
 
 .header { 
