@@ -1,5 +1,3 @@
-import './App.css' // Убедись, что стили подключены
-
 export default function CartPopup({ cart, products, onClose, onAdd, onRemove }) {
   // 1. Собираем полные данные товаров, которые есть в корзине
   const cartItems = Object.keys(cart).map(productId => {
