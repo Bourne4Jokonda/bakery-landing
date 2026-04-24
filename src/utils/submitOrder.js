@@ -2,17 +2,12 @@ import emailjs from '@emailjs/browser'
 
 export default async function submitOrder(orderData) {
   try {
-    // orderData = { name, phone, comment, items, total }
-    const orderText = orderData.items.map(item => 
-      `${item.name} — ${item.price} ₽`
-    ).join('\n')
-
     const templateParams = {
-      to_email: 'bourne4jokonda@gmail.com',
-      from_name: orderData.name || 'Клиент',
+      from_name: orderData.name || 'Клиент', // Для {{from_name}} в тексте
+      name: orderData.name || 'Клиент',      // Для {{name}} в поле "От кого"
       phone: orderData.phone || '',
       comment: orderData.comment || '',
-      order_details: orderText,
+      order_items: orderData.items || 'Не указано', // <-- ИСПРАВЛЕНО НА order_items
       total: orderData.total
     }
 

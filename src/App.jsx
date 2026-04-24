@@ -1,4 +1,3 @@
-// src/App.jsx
 import { useState, useEffect } from 'react'
 import { loadProducts } from './utils/loadProducts'
 import ProductPopup from './components/ProductPopup'
@@ -8,7 +7,7 @@ import './App.css'
 export default function App() {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
-  const [cart, setCart] = useState({}) // {productId: quantity}
+  const [cart, setCart] = useState({})
   const [activeProduct, setActiveProduct] = useState(null)
   const [showCart, setShowCart] = useState(false)
 
@@ -38,6 +37,10 @@ export default function App() {
     })
   }
 
+  const clearCart = () => {
+    setCart({})
+  }
+
   const isInCart = (productId) => cart[productId] > 0
   const getQuantity = (productId) => cart[productId] || 0
   const getTotalItems = () => Object.values(cart).reduce((sum, qty) => sum + qty, 0)
@@ -48,7 +51,7 @@ export default function App() {
     <div className="container">
       <header className="header">
         <h1>🥐 Пекарня «Тёплый край»</h1>
-        <button className="cart-btn" onClick={() => setShowCart(true)}>
+        <button className="cart-btn" onClick={() => setShowCart(true)}>       
           Корзина ({getTotalItems()})
         </button>
       </header>
@@ -102,6 +105,7 @@ export default function App() {
           cart={cart}
           products={products}
           onClose={() => setShowCart(false)}
+          onClearCart={clearCart}
           onAdd={(id) => addToCart(id)}
           onRemove={(id) => removeFromCart(id)}
         />
